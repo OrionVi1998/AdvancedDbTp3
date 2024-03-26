@@ -1,15 +1,37 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
+        String url = "jdbc:postgresql://localhost/postgres";
+        String user = "admin";
+        String pass = "1234";
+        Connection connexion = null;
+        try {
+            connexion = DriverManager.getConnection(url, user, pass);
+
+            /* Requests to bdd will be here */
+            System.out.println("DB Connected");
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connexion != null)
+                try {
+                    connexion.close();
+                } catch (SQLException ignore) {
+                    ignore.printStackTrace();
+                }
+        }
+
     }
 }
