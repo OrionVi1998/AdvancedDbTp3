@@ -1,3 +1,9 @@
+import DAO.DAOFactory;
+import DAO.DeptDAO;
+import DAO.EmpDAO;
+import model.Dept;
+import model.Emp;
+
 import java.sql.*;
 import java.util.Properties;
 
@@ -27,6 +33,18 @@ public class Main {
             moveDepartment(connexion, 7499, 20);
             moveDepartment(connexion, 7499, 30);
             displayTable(connexion, "emp");
+
+            DAOFactory daoFactory = new DAOFactory(connexion);
+
+            DeptDAO departmentDao = daoFactory.getDeptDao();
+
+            Dept dept20 = departmentDao.find(20);
+            System.out.println(dept20);
+
+            EmpDAO employeeDao = daoFactory.getEmpDao();
+            Emp emp7369 = employeeDao.find(7369);
+            System.out.println(emp7369);
+
 
 
         } catch (SQLException e) {
@@ -93,8 +111,6 @@ public class Main {
                 tableValBuilder.append(result.getArray(i)).append(" | ");
             }
             System.out.println(tableValBuilder);
-
-
 
         }
         result.close();
